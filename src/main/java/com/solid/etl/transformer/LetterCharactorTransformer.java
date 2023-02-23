@@ -18,10 +18,25 @@ public class LetterCharactorTransformer extends AbstractCharactorTransformer{
 
     @Override
     public List<String> transform(List<String> strList) {
-        // ToDo Convert from lower letter to upper letter
-
-        return Arrays.asList("I am a great coder who loves to solve real world \n" +
-                "problems","Design patterns helps me to write good modular \n" +
-                "and extensible code");
+        List<String> transformedLines = new ArrayList<>();
+        for (String line : strList) {
+            StringBuilder sb = new StringBuilder();
+            boolean newWord = true;
+            for (char c : line.toCharArray()) {
+                if (Character.isLetterOrDigit(c)) {
+                    if (newWord) {
+                        sb.append(Character.toUpperCase(c));
+                        newWord = false;
+                    } else {
+                        sb.append(Character.toLowerCase(c));
+                    }
+                } else {
+                    sb.append(c);
+                    newWord = true;
+                }
+            }
+            transformedLines.add(sb.toString());
+        }
+        return transformedLines;
     }
 }
