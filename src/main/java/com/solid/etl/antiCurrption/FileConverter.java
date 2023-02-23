@@ -4,6 +4,7 @@ import com.solid.etl.reader.DataReader;
 
 import java.util.List;
 
+// If we have DTO or encapsulated object then we need this as converter
 public class FileConverter<T> implements Conveter<T>{
 
     @Override

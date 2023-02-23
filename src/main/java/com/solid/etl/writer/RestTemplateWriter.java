@@ -8,4 +8,9 @@ public class RestTemplateWriter implements DataWriter {
     public void writeData(DataWriter reader) {
 
     }
+
+    @Override
+    public void writeData(List<String> strList) {
+
+    }
 }

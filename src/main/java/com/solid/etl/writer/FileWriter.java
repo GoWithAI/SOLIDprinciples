@@ -9,4 +9,9 @@ public class FileWriter implements DataWriter {
     public void writeData(DataWriter reader) {
       //ToDO
     }
+
+    @Override
+    public void writeData(List<String> strList) { // Throw exception failure case
+        System.out.println("Writting File .......");
+    }
 }

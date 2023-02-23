@@ -1,5 +1,7 @@
 package com.solid.etl.transformer;
 
+import java.util.List;
+
 public class SpecialCharactorTransformer extends AbstractCharactorTransformer{
 
     @Override
@@ -9,6 +11,11 @@ public class SpecialCharactorTransformer extends AbstractCharactorTransformer{
 
     @Override
     public String transform(String data) {
+        return null;
+    }
+
+    @Override
+    public List<String> transform(List<String> strList) {
         return null;
     }
 }

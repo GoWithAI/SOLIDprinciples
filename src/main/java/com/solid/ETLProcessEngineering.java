@@ -15,6 +15,7 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 
 // Class do Composition
@@ -31,7 +32,7 @@ public class ETLProcessEngineering {
     }
 
     // File Read -> Transform OCP ??
-    public void transformFiles(Path srcDir, Path destDir) throws IOException {
+    public void transformFiles2(Path srcDir, Path destDir) throws IOException {
 
         Files.createDirectories(destDir);
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(srcDir)) {
@@ -49,6 +50,14 @@ public class ETLProcessEngineering {
 
     }
 
+    // Follows OCP
+    public void transformFiles(Path srcDir, Path destDir) throws IOException { // Closed For Modification
+        List<String> statements = reader.readData(srcDir,destDir);
+        List<String> convertedStatements   =  transformer.transform(statements);// transformer open for Extension
+        writer.writeData(convertedStatements);
+
+    }
+
     public static void main(String[] args) throws IOException {
         DataReader fileReader = ReaderFactory.getReader(DataSourceEnum.FILE);
         DataWriter fileWriter = WriterFactory.getReader(DataSourceEnum.FILE);
@@ -59,7 +68,7 @@ public class ETLProcessEngineering {
         Path srcDir = Paths.get("D:\\2023 - Practice");
         Path destDir = Paths.get("D:\\2023 - Practice\test");
 
-        processEngineering.transformFiles(srcDir, srcDir);
+        processEngineering.transformFiles(srcDir, destDir);
 
     }
 
