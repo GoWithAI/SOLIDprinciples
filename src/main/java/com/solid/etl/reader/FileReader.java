@@ -20,6 +20,7 @@ public class FileReader implements DataReader{
         return list;
     }
 
+    //DTO
     public List<String> readData(Path srcDir, Path destDir) throws IOException {
         //Connect to file
         Files.createDirectories(destDir);

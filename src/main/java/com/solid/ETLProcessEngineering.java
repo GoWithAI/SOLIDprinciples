@@ -17,19 +17,67 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+// Intentionally KEEPING DESIGN FLOWS and Bad Code , or How design Can go wrong
 
 // Class do Composition
 public class ETLProcessEngineering {
     // Dependency Inversion
     private DataReader reader;
+
     private DataTransformer transformer;
+
+    private List<DataTransformer> transformers;
     private DataWriter writer;
+
+    public ETLProcessEngineering(){
+
+    }
 
     public ETLProcessEngineering(DataReader reader, DataTransformer transformer, DataWriter writer) {
         this.reader = reader;
         this.transformer = transformer;
         this.writer = writer;
     }
+
+    public ETLProcessEngineering(DataReader reader, List<DataTransformer> transformers, DataWriter writer) {
+        this.reader = reader;
+        this.transformers = transformers;
+        this.writer = writer;
+    }
+
+
+    public DataReader getReader() {
+        return reader;
+    }
+
+    public void setReader(DataReader reader) {
+        this.reader = reader;
+    }
+
+    public DataTransformer getTransformer() {
+        return transformer;
+    }
+
+    public void setTransformer(DataTransformer transformer) {
+        this.transformer = transformer;
+    }
+
+    public List<DataTransformer> getTransformers() {
+        return transformers;
+    }
+
+    public void setTransformers(List<DataTransformer> transformers) {
+        this.transformers = transformers;
+    }
+
+    public DataWriter getWriter() {
+        return writer;
+    }
+
+    public void setWriter(DataWriter writer) {
+        this.writer = writer;
+    }
+
 
     // File Read -> Transform OCP ??
     public void transformFiles2(Path srcDir, Path destDir) throws IOException {
@@ -52,25 +100,27 @@ public class ETLProcessEngineering {
 
     // Follows OCP
     public void transformFiles(Path srcDir, Path destDir) throws IOException { // Closed For Modification
-        List<String> statements = reader.readData(srcDir,destDir);
+        List<String> statements = reader.readData();
         List<String> convertedStatements   =  transformer.transform(statements);// transformer open for Extension
         writer.writeData(convertedStatements);
 
     }
 
-    public static void main(String[] args) throws IOException {
-        DataReader fileReader = ReaderFactory.getReader(DataSourceEnum.FILE);
-        DataWriter fileWriter = WriterFactory.getReader(DataSourceEnum.FILE);
+    public void fileTransformer(Path srcDir, Path destDir) throws IOException { // Closed For Modification
+        List<String> statements = reader.readData();
+/*
 
-        DataTransformer dataTransformer = new LetterCharactorTransformer();
-        ETLProcessEngineering processEngineering =  new ETLProcessEngineering(fileReader, dataTransformer,fileWriter);
+        Function<DataTransformer, List<String>> transformerFun = f -> f.transform(statements);
+        List<List<String>> TransformedList = transformers.stream().map(transformerFun).collect(Collectors.toList());
+*/
+        List<String> transformedData = statements;
+        for(DataTransformer tran : transformers){
+            transformedData = tran.transform(transformedData);
+        }
 
-        Path srcDir = Paths.get("D:\\2023 - Practice");
-        Path destDir = Paths.get("D:\\2023 - Practice\test");
-
-        processEngineering.transformFiles(srcDir, destDir);
+        //List<String> convertedStatements   =  transformers.transform(statements);// transformer open for Extension
+        //writer.writeData(convertedStatements);
 
     }
-
 
 }

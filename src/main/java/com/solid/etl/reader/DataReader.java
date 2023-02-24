@@ -9,6 +9,8 @@ public interface DataReader {
 
     public List<String> readData(DataReader reader);
 
-    public List<String> readData(Path srcDir, Path destDir) throws IOException;
+    //public List<String> readData(Path srcDir, Path destDir) throws IOException;
+
+    public List<String> readData();
 
 }
