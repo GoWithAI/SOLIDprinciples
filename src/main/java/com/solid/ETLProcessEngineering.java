@@ -103,7 +103,6 @@ public class ETLProcessEngineering {
         List<String> statements = reader.readData();
         List<String> convertedStatements   =  transformer.transform(statements);// transformer open for Extension
         writer.writeData(convertedStatements);
-
     }
 
     public void fileTransformer(Path srcDir, Path destDir) throws IOException { // Closed For Modification
