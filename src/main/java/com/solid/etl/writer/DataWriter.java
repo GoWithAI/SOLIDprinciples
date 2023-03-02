@@ -3,9 +3,9 @@ package com.solid.etl.writer;
 import java.util.List;
 
 // Interface Segregation Principle (ISP)
-public interface DataWriter {
+public interface DataWriter<T> {
+    public void init();
+    public void writeData(T t);
 
-    public void writeData(DataWriter reader);
-
-    public void writeData(List<String> strList);
+    void close();
 }

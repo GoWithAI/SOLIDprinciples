@@ -1,43 +1,56 @@
 package com.solid.etl.reader;
 
+import com.solid.etl.antiCurrption.Convertor;
+import com.solid.etl.antiCurrption.model.FileDTO;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Objects;
 
 // Single Responsibility Principle ( SRP )
-public class FileReader implements DataReader{
-    @Override
-    public List<String> readData(DataReader reader) {
-        //Connect to file
-        //read
-        // make object
-        List<String> list = new ArrayList<>(Arrays.asList("hello how aree u","test code test"));
-        ////// IN progress
-        return list;
+public class FileReader implements DataReader<FileDTO>{
+
+    private final String filePath ;
+    private BufferedReader reader;
+
+    private Convertor<String,FileDTO> convertor;
+
+    public FileReader(Convertor convertor, String filePath) {
+        this.filePath = filePath;
+        this.convertor = convertor;
+        init();
     }
 
-    //DTO
-    public List<String> readData(Path srcDir, Path destDir) throws IOException {
-        //Connect to file
-        Files.createDirectories(destDir);
-        try (
-                DirectoryStream<Path> stream = Files.newDirectoryStream(srcDir)) {
-            for (Path sourcePath : stream) {
-                if (!Files.isDirectory(sourcePath)) {
-
-                }
-            }
+    public void init(){
+        File f = new File(filePath);
+        try {
+            reader = new BufferedReader(new java.io.FileReader(f));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
         }
-        //read
-        // make object
-        List<String> list = new ArrayList<>(Arrays.asList("hello how aree u","test code test"));
-        ////// IN progress
-        return list;
     }
 
+    @Override
+    public FileDTO readData() {
+        String line ;
+        FileDTO dto ;
+        try {
+            line = reader.readLine();
+            dto = convertor.convert(line);
+            if (Objects.isNull(line)) {
+                reader.close();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return dto;
+    }
+
+    @Override
+    public void close() {
+
+    }
 
 }

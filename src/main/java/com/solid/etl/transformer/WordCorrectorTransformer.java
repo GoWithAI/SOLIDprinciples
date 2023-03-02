@@ -1,16 +1,13 @@
 package com.solid.etl.transformer;
 
+import com.solid.etl.antiCurrption.model.FileDTO;
+
 import java.util.List;
 
-public class WordCorrectorTransformer implements DataTransformer{
+public class WordCorrectorTransformer implements DataTransformer<FileDTO>{
 
     @Override
-    public String transform(String data) {
-        return null;
-    }
-
-    @Override
-    public List<String> transform(List<String> strList) {
+    public FileDTO transform(FileDTO fileDTO) {
         return null;
     }
 }

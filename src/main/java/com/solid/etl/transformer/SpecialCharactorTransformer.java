@@ -1,6 +1,7 @@
 package com.solid.etl.transformer;
 
-import java.util.List;
+import com.solid.etl.antiCurrption.model.FileDTO;
+
 
 public class SpecialCharactorTransformer extends AbstractCharactorTransformer{
 
@@ -10,12 +11,7 @@ public class SpecialCharactorTransformer extends AbstractCharactorTransformer{
     }
 
     @Override
-    public String transform(String data) {
-        return null;
-    }
-
-    @Override
-    public List<String> transform(List<String> strList) {
+    public FileDTO transform(FileDTO fileDTO) {
         return null;
     }
 }

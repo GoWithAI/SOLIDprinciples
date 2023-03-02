@@ -1,11 +1,15 @@
 package com.solid;
 
+import com.solid.etl.antiCurrption.FileDtoToStringConvertor;
+import com.solid.etl.antiCurrption.FileStringToDtoConvertor;
 import com.solid.etl.constants.DataSourceEnum;
 import com.solid.etl.reader.DataReader;
+import com.solid.etl.reader.FileReader;
 import com.solid.etl.reader.ReaderFactory;
 import com.solid.etl.transformer.DataTransformer;
 import com.solid.etl.transformer.LetterCharactorTransformer;
 import com.solid.etl.writer.DataWriter;
+import com.solid.etl.writer.FileWriter;
 import com.solid.etl.writer.WriterFactory;
 
 import java.io.IOException;
@@ -20,17 +24,15 @@ public class ETLProcessingJobTest {
     }
 
     private static void executeWithBuilder() throws IOException {
-        DataReader fileReader = ReaderFactory.getReader(DataSourceEnum.FILE);
-        DataWriter fileWriter = WriterFactory.getReader(DataSourceEnum.FILE);
-        DataTransformer dataTransformer = new LetterCharactorTransformer();
-        ETLProcessEngineering build = new ETLProcessorBuilder().withReader(fileReader).withTransformer(dataTransformer).withWriter(fileWriter).build();
-
-        Path srcDir = Paths.get("D:\\2023 - Practice");
-        Path destDir = Paths.get("D:\\2023 - Practice\test");
-
-        build.transformFiles(srcDir, destDir); // This wrong
+        ETLProcessEngineering build2 = new ETLProcessorBuilder()
+                .withReader(new FileReader(new FileStringToDtoConvertor(),"D:\\2023 - Practice"))
+                .withTransformer(new LetterCharactorTransformer())
+                .withWriter(new FileWriter(new FileDtoToStringConvertor(),"D:\\2023 - Practice\test"))
+                .build();
+        build2.transform();
     }
 
+    // Booom Again design flow
     private static void execute() throws IOException {
         DataReader fileReader = ReaderFactory.getReader(DataSourceEnum.FILE);
         DataWriter fileWriter = WriterFactory.getReader(DataSourceEnum.FILE);
@@ -40,7 +42,7 @@ public class ETLProcessingJobTest {
         // I Love My India
         Path srcDir = Paths.get("D:\\2023 - Practice");
         Path destDir = Paths.get("D:\\2023 - Practice\test");
-        processEngineering.transformFiles(srcDir, destDir);
+        //processEngineering.transformFiles(srcDir, destDir);
     }
 
 }

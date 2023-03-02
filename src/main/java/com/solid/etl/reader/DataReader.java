@@ -5,12 +5,14 @@ import java.nio.file.Path;
 import java.util.List;
 
 // Interface Segregation Principle (ISP)
-public interface DataReader {
 
-    public List<String> readData(DataReader reader);
+// Challenge Here Each implementation require configuration of its own ??
 
-    //public List<String> readData(Path srcDir, Path destDir) throws IOException;
+public interface DataReader<T> {
 
-    public List<String> readData();
+    public void init();
+    public T readData();
+
+    void close();
 
 }
