@@ -32,14 +32,14 @@ public class ETLProcessingJobTest {
         build2.transform();
     }
 
-    // Booom Again design flow
+    // Booom Again design flow - Bad way to write code
     private static void execute() throws IOException {
         DataReader fileReader = ReaderFactory.getReader(DataSourceEnum.FILE);
         DataWriter fileWriter = WriterFactory.getReader(DataSourceEnum.FILE);
 
         DataTransformer dataTransformer = new LetterCharactorTransformer();
         ETLProcessEngineering processEngineering =  new ETLProcessEngineering(fileReader, dataTransformer,fileWriter);
-        // I Love My India
+        processEngineering.transform();
         Path srcDir = Paths.get("D:\\2023 - Practice");
         Path destDir = Paths.get("D:\\2023 - Practice\test");
         //processEngineering.transformFiles(srcDir, destDir);

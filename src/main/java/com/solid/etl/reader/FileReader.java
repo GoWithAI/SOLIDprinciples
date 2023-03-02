@@ -17,6 +17,10 @@ public class FileReader implements DataReader<FileDTO>{
 
     private Convertor<String,FileDTO> convertor;
 
+    public FileReader() {
+       filePath =""; // Load default from somewhere
+    }
+
     public FileReader(Convertor convertor, String filePath) {
         this.filePath = filePath;
         this.convertor = convertor;

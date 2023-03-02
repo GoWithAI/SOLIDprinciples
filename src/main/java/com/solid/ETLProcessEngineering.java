@@ -18,11 +18,11 @@ import java.util.List;
 // Class do Composition
 public class ETLProcessEngineering {
     // Dependency Inversion
-    private DataReader<FileDTO> reader;
+    private DataReader<FileDTO> reader; // PENDING - FileDTO changes Generic
 
     private DataTransformer<FileDTO> transformer;
 
-    private List<DataTransformer> transformers;
+    private List<DataTransformer<FileDTO>> transformers;
     private DataWriter writer;
 
     public ETLProcessEngineering(){
@@ -35,7 +35,7 @@ public class ETLProcessEngineering {
         this.writer = writer;
     }
 
-    public ETLProcessEngineering(DataReader reader, List<DataTransformer> transformers, DataWriter writer) {
+    public ETLProcessEngineering(DataReader reader, List<DataTransformer<FileDTO>> transformers, DataWriter writer) {
         this.reader = reader;
         this.transformers = transformers;
         this.writer = writer;
@@ -58,11 +58,11 @@ public class ETLProcessEngineering {
         this.transformer = transformer;
     }
 
-    public List<DataTransformer> getTransformers() {
+    public List<DataTransformer<FileDTO>> getTransformers() {
         return transformers;
     }
 
-    public void setTransformers(List<DataTransformer> transformers) {
+    public void setTransformers(List<DataTransformer<FileDTO>> transformers) {
         this.transformers = transformers;
     }
 
@@ -94,19 +94,27 @@ public class ETLProcessEngineering {
 
     }
 
-/*    // Follows OCP
-    public void transformFiles(Path srcDir, Path destDir) throws IOException { // Closed For Modification
-        List<String> statements = reader.readData();
-        List<String> convertedStatements   =  transformer.transform(statements);// transformer open for Extension
-        writer.writeData(convertedStatements);
-    }*/
-
     // Follows OCP
     public void transform() throws IOException { // Closed For Modification
         FileDTO dto = reader.readData();
         FileDTO transformedDto = transformer.transform(dto);// transformer open for Extension
         String line = transformedDto.getLine();
         writer.writeData(transformedDto);
+    }
+
+    public void fileTransformer() throws IOException { // Closed For Modification
+        FileDTO dto = reader.readData();
+
+       /* Function<DataTransformer, List<String>> transformerFun = f -> f.transform(statements);
+        List<List<String>> TransformedList = transformers.stream().map(transformerFun).collect(Collectors.toList());*/
+
+        for(DataTransformer tran : transformers){
+           tran.transform(dto);
+        }
+
+        //List<String> convertedStatements   =  transformers.transform(statements);// transformer open for Extension
+        //writer.writeData(convertedStatements);
+
     }
 /*
     public void fileTransformer() throws IOException { // Closed For Modification

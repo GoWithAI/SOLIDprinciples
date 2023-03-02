@@ -17,7 +17,7 @@ public class FileWriter implements DataWriter<FileDTO> {
     private Convertor<FileDTO, String> convertor;
 
     public FileWriter(){
-        filePath = "/etc";
+        filePath = "/etc"; // default
     }
 
     public FileWriter(Convertor<FileDTO, String> convertor, String filePath) {

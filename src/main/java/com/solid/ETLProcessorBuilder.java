@@ -1,5 +1,6 @@
 package com.solid;
 
+import com.solid.etl.antiCurrption.model.FileDTO;
 import com.solid.etl.reader.DataReader;
 import com.solid.etl.transformer.DataTransformer;
 import com.solid.etl.writer.DataWriter;
@@ -25,7 +26,7 @@ public class ETLProcessorBuilder {
         return this;
     }
 
-    public ETLProcessorBuilder withTransformers(List<DataTransformer> transformers){
+    public ETLProcessorBuilder withTransformers(List<DataTransformer<FileDTO>> transformers){
         processEngineering.setTransformers(transformers);
         return this;
     }
